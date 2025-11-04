@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA BioResearch - Advancing Life Sciences in Space</title>
+    <link rel="stylesheet" href="nav.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --nasa-blue: #0B3D91;
+            --nasa-red: #FC3D21;
+            --dark-bg: #000000;
+            --light-text: #E4E4E4;
+            --accent: #FFFFFF;
+        }
+
+        /* Theme variables (default Cosmos via body.cosmos-theme) */
+        body.cosmos-theme {
+            --bg-primary: #0B0D17;
+            --bg-secondary: #1E213A;
+            --bg-tertiary: #2A2D47;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B3C7;
+            --text-muted: #7A7D8A;
+            --accent-primary: #5DADE2;
+            --accent-secondary: #FF6EC7;
+            --accent-tertiary: #00F5D4;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --nav-bg: rgba(11, 13, 23, 0.9);
+            --border-color: rgba(255, 255, 255, 0.1);
+            /* Back-compat mappings */
+            --accent: var(--accent-primary);
+            --dark-bg: var(--bg-primary);
+            --light-text: var(--text-primary);
+        }
+
+        /* Lunar Theme (Day) */
+        body.lunar-theme {
+            --bg-primary: #F5F7FA;
+            --bg-secondary: #FFFFFF;
+            --bg-tertiary: #E8EBF0;
+            --text-primary: #2D2D2D;
+            --text-secondary: #555555;
+            --text-muted: #888888;
+            --accent-primary: #004E92;
+            --accent-secondary: #FF4E50;
+            --accent-tertiary: #4CAF50;
+            --card-bg: rgba(0, 0, 0, 0.03);
+            --nav-bg: rgba(245, 247, 250, 0.9);
+            --border-color: rgba(0, 0, 0, 0.1);
+            /* Back-compat mappings */
+            --accent: var(--accent-primary);
+            --dark-bg: var(--bg-primary);
+            --light-text: var(--text-primary);
+        }
+
+        /* Solaris Theme (Eye-Comfort/Warm) */
+        body.solaris-theme {
+            --bg-primary: #FFF3E0;
+            --bg-secondary: #FFFAF3;
+            --bg-tertiary: #F5E6D3;
+            --text-primary: #5C3D00;
+            --text-secondary: #7A5A2E;
+            --text-muted: #9A7A4A;
+            --accent-primary: #FF8C42;
+            --accent-secondary: #FFD166;
+            --accent-tertiary: #6FCF97;
+            --card-bg: rgba(0, 0, 0, 0.05);
+            --nav-bg: rgba(255, 243, 224, 0.9);
+            --border-color: rgba(255, 140, 66, 0.2);
+            /* Back-compat mappings */
+            --accent: var(--accent-primary);
+            --dark-bg: var(--bg-primary);
+            --light-text: var(--text-primary);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            transition: transform 0.2s ease, width 0.3s ease, height 0.3s ease;
+        }
+
+        .custom-cursor.active {
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: 2px solid var(--accent);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 25px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0);
+            backdrop-filter: blur(0px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        nav.scrolled {
+            padding: 18px 60px;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: var(--text-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-primary);
+            transition: width 0.4s ease;
+        }
+
+        .logo:hover::after {
+            width: 100%;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 50px;
+        }
+
+        .theme-toggle-btn {
+            margin-left: 30px;
+            padding: 10px 16px;
+            border: 1px solid var(--border-color, rgba(255,255,255,0.15));
+            background: var(--card-bg, rgba(255,255,255,0.06));
+            color: var(--text-primary);
+            letter-spacing: 1.5px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.3s ease, color 0.3s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+
+        /* Hero Section with Video Background Effect */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: var(--bg-primary);
+        }
+
+        .hero-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: color-mix(in oklab, var(--accent-primary) 40%, transparent);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .hero-gradient {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, color-mix(in oklab, var(--accent-primary) 30%, transparent), transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            padding: 0 60px;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: heroFadeIn 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards 0.3s;
+        }
+
+        @keyframes heroFadeIn {
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content h1 {
+            font-size: 6rem;
+            font-weight: 200;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            line-height: 1.1;
+            position: relative;
+        }
+
+        .hero-content .highlight {
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+            position: relative;
+        }
+
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+
+        .hero-content p {
+            font-size: 1.4rem;
+            max-width: 700px;
+            margin-bottom: 50px;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.8s;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(20px); }
+        }
+
+        .cta-container {
+            display: flex;
+            gap: 30px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 1.2s;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 50px;
+            background: var(--accent);
+            color: var(--dark-bg);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .cta-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.2);
+        }
+
+        .cta-button-secondary {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .cta-button-secondary:hover {
+            background: var(--accent);
+            color: var(--dark-bg);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 2s;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .scroll-indicator span {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--accent-primary), transparent);
+            animation: scrollLine 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollLine {
+            0%, 100% { transform: scaleY(0); transform-origin: top; }
+            50% { transform: scaleY(1); }
+        }
+
+        /* Stats Section with Reveal Animation */
+        .stats-section {
+            padding: 150px 60px;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+        }
+
+        .stats-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 80px;
+        }
+
+        .stat-item {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(60px) scale(0.9);
+            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+            position: relative;
+        }
+
+        .stat-item::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+            opacity: 0;
+            transition: opacity 0.6s ease 0.3s;
+        }
+
+        .stat-item.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .stat-item.visible::before {
+            opacity: 1;
+        }
+
+        .stat-number {
+            font-size: 5rem;
+            font-weight: 100;
+            color: var(--accent-primary);
+            margin-bottom: 15px;
+            line-height: 1;
+            text-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Timeline with Advanced Animations */
+        .timeline-section {
+            padding: 180px 60px;
+            position: relative;
+            background: linear-gradient(to bottom, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);
+        }
+
+        .section-header {
+            max-width: 1400px;
+            margin: 0 auto 120px;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 4rem;
+            font-weight: 200;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        .section-description {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .timeline-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--border-color), transparent);
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            margin-bottom: 200px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            order: 2;
+        }
+
+        .timeline-item:nth-child(even) .timeline-image-wrapper {
+            order: 1;
+        }
+
+        .timeline-content {
+            padding: 60px;
+            opacity: 0;
+            transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            text-align: right;
+            transform: translateX(-80px);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            transform: translateX(80px);
+        }
+
+        .timeline-item.visible .timeline-content {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-year {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .timeline-title {
+            font-size: 2.8rem;
+            font-weight: 300;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+
+        .timeline-description {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+        }
+
+        .timeline-image-wrapper {
+            position: relative;
+            height: 500px;
+            opacity: 0;
+            transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+            overflow: hidden;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-image-wrapper {
+            transform: translateX(80px);
+        }
+
+        .timeline-item:nth-child(even) .timeline-image-wrapper {
+            transform: translateX(-80px);
+        }
+
+        .timeline-item.visible .timeline-image-wrapper {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-image {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        
+        .timeline-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, color-mix(in oklab, var(--accent-primary) 40%, transparent), color-mix(in oklab, var(--accent-secondary) 30%, transparent));
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .timeline-image::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: width 0.8s ease, height 0.8s ease;
+        }
+
+        .timeline-image-wrapper:hover .timeline-image {
+            transform: scale(1.05);
+        }
+
+        .timeline-image-wrapper:hover .timeline-image::before {
+            opacity: 1;
+        }
+
+        .timeline-image-wrapper:hover .timeline-image::after {
+            width: 400px;
+            height: 400px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 250px;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: var(--bg-primary);
+            border: 3px solid var(--accent-primary);
+            border-radius: 50%;
+            z-index: 10;
+            transition: all 0.4s ease;
+        }
+
+        .timeline-item.visible .timeline-dot {
+            animation: dotPulse 2s ease infinite;
+        }
+
+        @keyframes dotPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            50% { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
+        }
+
+        /* Immersive Horizontal Scroll Section */
+        .horizontal-section {
+            height: 400vh;
+            position: relative;
+            background: #000;
+        }
+
+        .horizontal-wrapper {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .horizontal-content {
+            display: flex;
+            gap: 80px;
+            padding: 0 60px;
+            will-change: transform;
+            transition: transform 0.1s linear;
+        }
+
+        .research-panel {
+            min-width: 550px;
+            height: 650px;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            padding: 70px;
+            position: relative;
+            border: 1px solid var(--border-color);
+            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            transform-style: preserve-3d;
+        }
+
+        .research-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+
+        .research-panel:hover::before {
+            opacity: 1;
+            transform: translate(10px, 10px);
+        }
+
+        .research-panel::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s ease;
+        }
+
+        .research-panel:hover::after {
+            transform: scaleX(1);
+        }
+
+        .research-panel:hover {
+            transform: translateY(-15px) rotateX(2deg);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+        }
+
+        .panel-number {
+            font-size: 8rem;
+            font-weight: 100;
+            color: color-mix(in oklab, var(--text-primary) 3%, transparent);
+            position: absolute;
+            top: 30px;
+            right: 50px;
+            line-height: 1;
+            transition: all 0.6s ease;
+        }
+
+        .research-panel:hover .panel-number {
+            color: color-mix(in oklab, var(--text-primary) 8%, transparent);
+            transform: scale(1.1);
+        }
+
+        .panel-icon {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            display: inline-block;
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .research-panel:hover .panel-icon {
+            transform: scale(1.1) rotateY(180deg);
+        }
+
+        .panel-title {
+            font-size: 2.3rem;
+            font-weight: 300;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        .panel-description {
+            font-size: 1.1rem;
+            line-height: 2;
+            color: var(--text-secondary);
+        }
+
+        /* 3D Rotating Globe Section */
+        .globe-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: radial-gradient(circle at center, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            overflow: hidden;
+        }
+
+        .globe-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            perspective: 1000px;
+        }
+
+        .globe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, color-mix(in oklab, var(--accent-primary) 10%, transparent), color-mix(in oklab, var(--accent-secondary) 10%, transparent));
+            border: 1px solid var(--border-color);
+            animation: globeRotate 30s linear infinite;
+            box-shadow: 0 0 100px color-mix(in oklab, var(--accent-primary) 30%, transparent),
+                        inset 0 0 100px color-mix(in oklab, var(--accent-primary) 20%, transparent);
+        }
+
+        .globe::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent 70%);
+        }
+
+        @keyframes globeRotate {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
+        }
+
+        .globe-rings {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .ring {
+            position: absolute;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            animation: ringPulse 4s ease-in-out infinite;
+        }
+
+        .ring:nth-child(1) {
+            width: 120%;
+            height: 120%;
+            top: -10%;
+            left: -10%;
+        }
+
+        .ring:nth-child(2) {
+            width: 140%;
+            height: 140%;
+            top: -20%;
+            left: -20%;
+            animation-delay: 1s;
+        }
+
+        .ring:nth-child(3) {
+            width: 160%;
+            height: 160%;
+            top: -30%;
+            left: -30%;
+            animation-delay: 2s;
+        }
+
+        @keyframes ringPulse {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.05); }
+        }
+
+        .globe-info {
+            position: absolute;
+            right: 10%;
+            max-width: 500px;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .globe-info.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .globe-info h2 {
+            font-size: 3.5rem;
+            font-weight: 200;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+        .globe-info p {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+        }
+
+        /* Future Grid with Mask Reveal */
+        .future-section {
+            padding: 180px 60px;
+            background: linear-gradient(to bottom, var(--bg-primary) 0%, color-mix(in oklab, var(--bg-primary) 90%, var(--bg-tertiary)) 100%);
+            position: relative;
+        }
+
+        .future-grid {
+            max-width: 1400px;
+            margin: 60px auto 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .future-card {
+            background: var(--bg-secondary);
+            padding: 60px 45px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .future-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .future-card::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, color-mix(in oklab, var(--text-primary) 5%, transparent), transparent);
+            transition: top 0.6s ease;
+        }
+
+        .future-card:hover::before {
+            top: 100%;
+        }
+
+        .future-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-primary), transparent);
+            transition: width 0.6s ease;
+        }
+
+        .future-card:hover::after {
+            width: 100%;
+        }
+
+        .future-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px color-mix(in oklab, var(--bg-primary) 50%, transparent);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            display: inline-block;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .future-card:hover .card-icon {
+            transform: scale(1.2) rotateZ(5deg);
+        }
+
+        .future-card h3 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .future-card p {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 1.05rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 100px 60px 50px;
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 80px;
+            margin-bottom: 80px;
+        }
+
+        .footer-section h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .footer-section p {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            margin-bottom: 25px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .footer-links a::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-primary);
+            padding-left: 20px;
+        }
+
+        .footer-links a:hover::before {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 50px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        /* Scroll Progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--nasa-blue), var(--accent-primary), var(--nasa-red));
+            z-index: 9999;
+            transform-origin: left;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content h1 { font-size: 3.5rem; }
+            .timeline-container { padding: 0 30px; }
+            .timeline-line { display: none; }
+            .timeline-item { grid-template-columns: 1fr; gap: 40px; }
+            .timeline-item:nth-child(odd) .timeline-content { text-align: left; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .future-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body class="cosmos-theme">
+    <div class="custom-cursor" id="cursor"></div>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Navigation -->
+    <nav id="nav" class="">
+        <div class="logo" style="cursor:pointer" onclick="window.location='/'">NASA BioResearch</div>
+        <div class="nav-links">
+            <a href="/" class="">Dashboard</a>
+            <a href="/publications" class="">Publications</a>
+            <a href="/timeline.html" class="">Story</a>
+            <a href="/summarise" class="">Summarise</a>
+            <a href="/about.html" class="">About</a>
+            <button id="themeToggle" class="theme-toggle">Theme</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-particles" id="particles"></div>
+        <div class="hero-gradient"></div>
+        <div class="hero-content">
+            <h1>Pioneering <span class="highlight">Life Sciences</span><br>Beyond Earth</h1>
+            <p>For over six decades, NASA has led a dual mission: to enable human exploration of the cosmos and to pioneer discoveries that improve life on Earth. Research in the extreme environment of space expands our fundamental knowledge of biology for the benefit of all humanity.</p>
+            <div class="cta-container">
+                <a href="#research" class="cta-button">Explore Research</a>
+                <a href="#journey" class="cta-button cta-button-secondary">Our Journey</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number" data-target="4000">0</div>
+                <div class="stat-label">ISS Investigations</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="65">0</div>
+                <div class="stat-label">Years of Research</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="100">0</div>
+                <div class="stat-label">Countries Involved</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="4400">0</div>
+                <div class="stat-label">Scientific Publications</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="timeline-section" id="journey">
+        <div class="section-header">
+            <div class="section-subtitle">Our Journey</div>
+            <h2 class="section-title">Evolution of Discovery</h2>
+            <p class="section-description">From simple questions of survival to complex molecular investigations, each era of spaceflight has built upon the last, deepening our understanding of life in the void.</p>
+        </div>
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-year">1951-1969</div>
+                    <h3 class="timeline-title">The Dawn of the Space Age</h3>
+                    <p class="timeline-description">Early high-altitude flights with fruit flies and monkeys paved the way for Project Mercury, which proved humans could survive in space. Gemini hosted the first in-flight experiments, while the Biosatellite program revealed the profound physiological challenges of long-term weightlessness.</p>
+                </div>
+                <div class="timeline-image-wrapper">
+                    <div class="timeline-image" style="background-image: url('images/astrochimps.jpg');"></div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-year">1973-1974</div>
+                    <h3 class="timeline-title">Skylab: First Orbital Lab</h3>
+                    <p class="timeline-description">As America's first space station, Skylab enabled the first long-duration missions up to 84 days. It was a dedicated laboratory for a systematic investigation of human adaptation, providing the first comprehensive data on fluid shifts, muscle atrophy, and bone loss in space.</p>
+                </div>
+                <div class="timeline-image-wrapper">
+                    <div class="timeline-image" style="background-image: url('images/_jpg.jpg');"></div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-year">1981-2011</div>
+                    <h3 class="timeline-title">The Shuttle & Spacelab Era</h3>
+                    <p class="timeline-description">The Space Shuttle created routine access to space. The Spacelab module transformed the orbiter into a short-term station, hosting missions entirely dedicated to life sciences that generated rich datasets on the acute physiological adaptations of humans and animals to microgravity.</p>
+                </div>
+                <div class="timeline-image-wrapper">
+                    <div class="timeline-image" style="background-image: url('images/skylab.jpg');"></div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-year">2000-Present</div>
+                    <h3 class="timeline-title">The International Space Station</h3>
+                    <p class="timeline-description">Continuously inhabited since 2000, the ISS shifted bioresearch from short-term adaptation to the chronic effects of living in space. Designated a U.S. National Laboratory, it has enabled landmark investigations like the NASA Twins Study, providing an unprecedented view of spaceflight's effects at the molecular level.</p>
+                </div>
+                <div class="timeline-image-wrapper">
+                    <div class="timeline-image" style="background-image: url('images/iss.jpg');"></div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-year">2015-Present</div>
+                    <h3 class="timeline-title">Preparing for Deep Space</h3>
+                    <p class="timeline-description">Current research is focused on enabling missions to the Moon and Mars under the Artemis program. The focus has shifted from characterizing effects to engineering solutions, using technologies like synthetic biology and organ-on-a-chip to prepare humanity for its next giant leap.</p>
+                </div>
+                <div class="timeline-image-wrapper">
+                    <div class="timeline-image" style="background-image: url('images/deepspace.jpg');"></div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="horizontal-section" id="research">
+        <div class="horizontal-wrapper">
+            <div class="horizontal-content" id="horizontalContent">
+                <div class="research-panel">
+                    <span class="panel-number">01</span>
+                    <div class="panel-icon">🧬</div>
+                    <h3 class="panel-title">Human Physiology</h3>
+                    <p class="panel-description">Investigating how microgravity causes systemic changes like fluid shifts, cardiovascular deconditioning, bone and muscle loss, and altered immune responses. This research, managed by the Human Research Program (HRP), is critical for developing countermeasures to protect astronaut health.</p>
+                </div>
+                <div class="research-panel">
+                    <span class="panel-number">02</span>
+                    <div class="panel-icon">🧠</div>
+                    <h3 class="panel-title">Neuroscience & Behavior</h3>
+                    <p class="panel-description">Understanding how the brain adapts to sensory conflicts that cause space motion sickness and balance issues. We also study the cognitive and psychological effects of long-duration isolation in ground analogs like HERA to ensure crew performance and well-being on deep space missions.</p>
+                </div>
+                <div class="research-panel">
+                    <span class="panel-number">03</span>
+                    <div class="panel-icon">☢️</div>
+                    <h3 class="panel-title">Space Radiation</h3>
+                    <p class="panel-description">Beyond Earth's protective magnetosphere, Galactic Cosmic Rays (GCRs) pose a significant health risk. Using the NASA Space Radiation Laboratory (NSRL) to simulate this environment, we study radiation's biological effects to develop shielding and countermeasures for cancer and CNS damage.</p>
+                </div>
+                <div class="research-panel">
+                    <span class="panel-number">04</span>
+                    <div class="panel-icon">🌱</div>
+                    <h3 class="panel-title">Space Biology & SynBio</h3>
+                    <p class="panel-description">From growing fresh food on the ISS with the Veggie system to pioneering 3D tissue engineering, we study how life adapts to space. The new frontier is Synthetic Biology, engineering microbes to act as on-demand bio-factories for nutrients, medicine, and materials.</p>
+                </div>
+                <div class="research-panel">
+                    <span class="panel-number">05</span>
+                    <div class="panel-icon">🔬</div>
+                    <h3 class="panel-title">Astrobiology</h3>
+                    <p class="panel-description">The search for life's origins and distribution in the universe. Discoveries of ancient habitable environments on Mars, subsurface oceans on Europa, and thousands of exoplanets guide our quest to answer one of humanity's most profound questions: Are we alone?</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="globe-section" id="collaboration">
+        <div class="globe-container">
+            <div class="globe"></div>
+            <div class="globe-rings">
+                <div class="ring"></div>
+                <div class="ring"></div>
+                <div class="ring"></div>
+            </div>
+        </div>
+        <div class="globe-info" id="globeInfo">
+            <h2>Global Collaboration</h2>
+            <p>The International Space Station stands as a testament to global partnership. NASA's research is amplified through collaboration with agencies like ESA and JAXA, academic institutions, and the commercial sector, ensuring that discoveries in space benefit all of humanity.</p>
+        </div>
+    </section>
+
+    <section class="future-section" id="future">
+        <div class="section-header">
+            <div class="section-subtitle">Innovation Ahead</div>
+            <h2 class="section-title">Future Frontiers</h2>
+            <p class="section-description">The next generation of space biology will unlock solutions to humanity's greatest challenges, actively engineering biological systems to allow us to thrive on the Moon, Mars, and beyond.</p>
+        </div>
+        <div class="future-grid">
+            <div class="future-card">
+                <div class="card-icon">👩‍⚕️</div>
+                <h3>Personalized Space Medicine</h3>
+                <p>Using "organ-on-a-chip" technology, like the AVATAR experiment for Artemis II, we will analyze how an individual astronaut's cells respond to deep space, enabling us to develop personalized countermeasures and medical treatments.</p>
+            </div>
+            <div class="future-card">
+                <div class="card-icon">🦠</div>
+                <h3>On-Demand Bio-Factories</h3>
+                <p>Synthetic biology will allow us to engineer microorganisms to produce essential nutrients, pharmaceuticals, and even building materials from local resources, dramatically reducing our reliance on resupply missions from Earth.</p>
+            </div>
+            <div class="future-card">
+                <div class="card-icon">🌍</div>
+                <h3>Regenerative Life Support</h3>
+                <p>Creating closed-loop, self-sustaining ecosystems that recycle air, water, and waste. These bioregenerative systems are the key to establishing permanent and independent human outposts on other worlds.</p>
+            </div>
+            <div class="future-card">
+                <div class="card-icon">🧠</div>
+                <h3>Protecting the Explorer's Mind</h3>
+                <p>Developing effective neuroprotection against the hazards of deep space radiation is critical. This research has direct applications to understanding and treating neurodegenerative diseases like Alzheimer's on Earth.</p>
+            </div>
+            <div class="future-card">
+                <div class="card-icon">🧬</div>
+                <h3>Enhancing Human Resilience</h3>
+                <p>Exploring the potential of advanced genetic tools like CRISPR to engineer more robust DNA repair mechanisms in astronauts' cells, fundamentally increasing their resistance to the damaging effects of space radiation.</p>
+            </div>
+            <div class="future-card">
+                <div class="card-icon">💊</div>
+                <h3>Advanced Pharmaceuticals</h3>
+                <p>Utilizing microgravity to grow larger, more perfect protein crystals, we accelerate the design of novel drugs on Earth for diseases like muscular dystrophy and cancer, a field pioneered by partners like JAXA on the ISS.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>NASA BioResearch</h4>
+                <p>Advancing biological research for the benefit of humanity on Earth and throughout the solar system. Pioneering life sciences in the final frontier.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Research</h4>
+                <div class="footer-links">
+                    <a href="#">Current Projects</a>
+                    <a href="#">Publications</a>
+                    <a href="#">Data Archives</a>
+                    <a href="#">Collaborations</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <div class="footer-links">
+                    <a href="#">Press Releases</a>
+                    <a href="#">Media Library</a>
+                    <a href="#">Educational Programs</a>
+                    <a href="#">Career Opportunities</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <div class="footer-links">
+                    <a href="#">Contact Us</a>
+                    <a href="#">Newsletter</a>
+                    <a href="#">Social Media</a>
+                    <a href="#">Events</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 NASA BioResearch. National Aeronautics and Space Administration.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        document.querySelectorAll('a, button, .research-panel, .future-card').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+        });
+
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / scrollHeight) * 100;
+            scrollProgress.style.width = scrolled + '%';
+        });
+
+        // Nav scroll effect
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Generate Particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.width = Math.random() * 3 + 1 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Intersection Observer for stats
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px'
+        };
+
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    if (!statNumber.classList.contains('animated')) {
+                         animateCounter(statNumber);
+                         statNumber.classList.add('animated');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.stat-item').forEach(item => {
+            statsObserver.observe(item);
+        });
+
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-target'));
+            const duration = 2500;
+            const increment = target / (duration / 16);
+            let current = 0;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target.toLocaleString() + (['4000', '4400', '65'].includes(element.getAttribute('data-target')) ? '+' : '');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current).toLocaleString();
+                }
+            }, 16);
+        }
+
+        // Timeline observer
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            timelineObserver.observe(item);
+        });
+
+        // Horizontal scroll with smooth easing
+        const horizontalSection = document.querySelector('.horizontal-section');
+        const horizontalContent = document.getElementById('horizontalContent');
+        let targetTransform = 0;
+        let currentTransform = 0;
+
+        window.addEventListener('scroll', () => {
+            const rect = horizontalSection.getBoundingClientRect();
+            const sectionHeight = horizontalSection.offsetHeight;
+            
+            if (rect.top <= 0 && rect.bottom >= window.innerHeight) {
+                const progress = Math.abs(rect.top) / (sectionHeight - window.innerHeight);
+                const maxScroll = horizontalContent.scrollWidth - window.innerWidth;
+                targetTransform = progress * maxScroll;
+            }
+        });
+
+        function smoothHorizontalScroll() {
+            currentTransform += (targetTransform - currentTransform) * 0.1;
+            horizontalContent.style.transform = `translateX(-${currentTransform}px)`;
+            requestAnimationFrame(smoothHorizontalScroll);
+        }
+        smoothHorizontalScroll();
+
+        // Globe info observer
+        const globeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.3 });
+
+        const globeInfo = document.getElementById('globeInfo');
+        globeObserver.observe(globeInfo);
+
+        // Future cards staggered animation
+        const futureObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, entry.target.dataset.index * 150);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.future-card').forEach((card, index) => {
+            card.dataset.index = index;
+            futureObserver.observe(card);
+        });
+
+        // Theme toggle - integrated with navigation system
+        (function() {
+            const bodyEl = document.body;
+            const btn = document.getElementById('themeToggle');
+            const themeOrder = ['cosmos', 'lunar', 'solaris'];
+            const themeClasses = ['cosmos-theme', 'lunar-theme', 'solaris-theme'];
+            const themeNames = ['Cosmos', 'Lunar', 'Solaris'];
+            
+            function getCurrentTheme() {
+                return localStorage.getItem('theme') || 'cosmos';
+            }
+            
+            function setTheme(theme) {
+                // Remove all theme classes
+                themeClasses.forEach(t => bodyEl.classList.remove(t));
+                
+                // Add new theme class
+                const themeIndex = themeOrder.indexOf(theme);
+                if (themeIndex !== -1) {
+                    bodyEl.classList.add(themeClasses[themeIndex]);
+                    bodyEl.setAttribute('data-theme', theme);
+                    
+                    // Update button text
+                    if (btn) {
+                        btn.textContent = themeNames[themeIndex];
+                    }
+                    
+                    // Save to localStorage
+                    localStorage.setItem('theme', theme);
+                    
+                    // Trigger theme change event for other scripts
+                    window.dispatchEvent(new CustomEvent('themeChanged', { 
+                        detail: { theme: theme } 
+                    }));
+                }
+            }
+            
+            // Initialize theme
+            const currentTheme = getCurrentTheme();
+            setTheme(currentTheme);
+            
+            // Add click listener
+            if (btn) {
+                btn.addEventListener('click', () => {
+                    const currentIndex = themeOrder.indexOf(getCurrentTheme());
+                    const nextIndex = (currentIndex + 1) % themeOrder.length;
+                    const nextTheme = themeOrder[nextIndex];
+                    setTheme(nextTheme);
+                });
+            }
+            
+            // Listen for theme changes from navigation system
+            window.addEventListener('themeChanged', function(event) {
+                const newTheme = event.detail.theme;
+                setTheme(newTheme);
+            });
+        })();
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+    
+    <script src="js/nav.js"></script>
+    <script>
+        // Load navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('nav.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('nav-container').innerHTML = data;
+                    // Re-initialize navigation after loading
+                    if (window.navigationManager) {
+                        window.navigationManager.init();
+                    }
+                })
+                .catch(error => console.error('Error loading navigation:', error));
+        });
+        
+    </script>
+</body>
+</html>

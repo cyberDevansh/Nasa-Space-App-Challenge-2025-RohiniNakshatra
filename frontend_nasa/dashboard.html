@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NASA Bioscience Dashboard</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+    }
+    .accent-primary {
+      color: #bb86fc;
+    }
+    .text-primary {
+      color: #ffffff;
+    }
+    .text-secondary {
+      color: #b0b0b0;
+    }
+    .bg-gradient-to-b {
+      background: linear-gradient(to bottom, #1e1e1e, #121212);
+    }
+    .research-card {
+      background-color: #1e1e1e;
+      border-radius: 10px;
+      padding: 25px;
+      transition: transform 0.3s;
+    }
+    .research-card:hover {
+      transform: scale(1.05);
+    }
+    .gradient-text {
+      background: linear-gradient(90deg, #bb86fc, #03dac6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .cursor {
+      width: 10px;
+      height: 10px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="nav.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
+</head>
+<body class="overflow-x-hidden">
+  <div id="nav-container"></div>
+  <div class="cursor"></div>
+  
+  <section class="relative min-h-screen bg-gradient-to-b from-bg-primary to-bg-secondary">
+    <div id="vanta-bg" class="absolute inset-0 z-0"></div>
+    
+    <main class="relative z-10 px-6 pt-24 pb-24">
+      <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col items-center text-center mb-20">
+          <div class="inline-block mb-6 px-4 py-1 rounded-full border accent-primary text-xs uppercase tracking-wider">
+            Pioneering Life in Space
+          </div>
+          <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight text-primary">
+            Exploring <span class="gradient-text">Life Beyond Earth</span>
+          </h1>
+          <p class="text-lg text-secondary max-w-2xl mb-10">
+            Advancing human spaceflight through cutting-edge bioscience research, 
+            studying how life adapts and thrives in the extreme environment of space.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="#research" class="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full text-white font-medium hover:opacity-90 transition-opacity">
+              Explore Research
+            </a>
+            <a href="#missions" class="px-8 py-3 bg-transparent border border-color rounded-full text-primary font-medium hover:bg-white/10 transition-colors">
+              View Missions
+            </a>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div class="p-8 rounded-xl backdrop-blur-sm research-card">
+            <div class="accent-primary text-5xl font-bold mb-2">75+</div>
+            <div class="text-sm text-muted">Years of Research</div>
+          </div>
+          <div class="p-8 rounded-xl backdrop-blur-sm research-card">
+            <div class="accent-primary text-5xl font-bold mb-2">3000+</div>
+            <div class="text-sm text-muted">Space Experiments</div>
+          </div>
+          <div class="p-8 rounded-xl backdrop-blur-sm research-card">
+            <div class="accent-primary text-5xl font-bold mb-2">15+</div>
+            <div class="text-sm text-muted">International Partners</div>
+          </div>
+          <div class="p-8 rounded-xl backdrop-blur-sm research-card">
+            <div class="accent-primary text-5xl font-bold mb-2">600+</div>
+            <div class="text-sm text-muted">Scientific Papers</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <section id="research" class="bg-gradient-to-b from-bg-primary to-bg-secondary">
+    <div class="max-w-7xl mx-auto px-6 py-24">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-6xl font-bold mb-6 text-primary">
+          Our <span class="gradient-text">Research Focus</span>
+        </h2>
+        <p class="text-xl text-secondary max-w-3xl mx-auto">
+          From understanding cellular behavior in microgravity to developing 
+          sustainable life support systems for long-duration space missions.
+        </p>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="research-card p-8 rounded-2xl">
+          <div class="accent-primary text-6xl mb-4">🧬</div>
+          <h3 class="text-2xl font-bold mb-4 text-primary">Cellular Biology</h3>
+          <p class="text-secondary mb-6">
+            Studying how cells respond to microgravity, radiation, and other 
+            space environmental factors that could impact human health.
+          </p>
+          <!-- Learn More link removed per request -->
+        </div>
+        
+        <div class="research-card p-8 rounded-2xl">
+          <div class="accent-primary text-6xl mb-4">🌱</div>
+          <h3 class="text-2xl font-bold mb-4 text-primary">Plant Biology</h3>
+          <p class="text-secondary mb-6">
+            Developing advanced plant growth systems for food production 
+            and life support in space habitats and on other planets.
+          </p>
+          <!-- Learn More link removed per request -->
+        </div>
+        
+        <div class="research-card p-8 rounded-2xl">
+          <div class="accent-primary text-6xl mb-4">🔬</div>
+          <h3 class="text-2xl font-bold mb-4 text-primary">Microbiology</h3>
+          <p class="text-secondary mb-6">
+            Investigating microbial behavior in space environments and 
+            developing countermeasures for space-related health risks.
+          </p>
+          <!-- Learn More link removed per request -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="missions" class="bg-gradient-to-b from-bg-secondary to-bg-primary">
+    <div class="max-w-7xl mx-auto px-6 py-24">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-6xl font-bold mb-6 text-primary">
+          Mission <span class="gradient-text">Timeline</span>
+        </h2>
+        <p class="text-xl text-secondary max-w-3xl mx-auto">
+          Key milestones in our journey to understand life in space and 
+          prepare for future exploration missions.
+        </p>
+      </div>
+      
+      <div class="relative">
+        <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-accent-primary to-accent-secondary"></div>
+        
+        <div class="space-y-12">
+          <div class="flex items-center">
+            <div class="w-1/2 pr-8 text-right">
+              <div class="research-card p-6 rounded-xl">
+                <div class="accent-primary text-sm mb-2">1973-1974</div>
+                <h3 class="text-xl font-bold mb-2 text-primary">Skylab 3 & 4</h3>
+                <p class="text-secondary">First comprehensive biological experiments in space, studying plant growth and human adaptation.</p>
+              </div>
+            </div>
+            <div class="w-8 h-8 accent-primary rounded-full border-4 border-bg-primary flex-shrink-0"></div>
+            <div class="w-1/2 pl-8"></div>
+          </div>
+          
+          <div class="flex items-center">
+            <div class="w-1/2 pr-8"></div>
+            <div class="w-8 h-8 accent-primary rounded-full border-4 border-bg-primary flex-shrink-0"></div>
+            <div class="w-1/2 pl-8">
+              <div class="research-card p-6 rounded-xl">
+                <div class="accent-primary text-sm mb-2">1998-2011</div>
+                <h3 class="text-xl font-bold mb-2 text-primary">International Space Station</h3>
+                <p class="text-secondary">Continuous biological research platform enabling long-duration studies in microgravity.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex items-center">
+            <div class="w-1/2 pr-8 text-right">
+              <div class="research-card p-6 rounded-xl">
+                <div class="accent-primary text-sm mb-2">2020-Present</div>
+                <h3 class="text-xl font-bold mb-2 text-primary">Artemis Program</h3>
+                <p class="text-secondary">Preparing for sustainable human presence on the Moon with advanced life support systems.</p>
+              </div>
+            </div>
+            <div class="w-8 h-8 accent-primary rounded-full border-4 border-bg-primary flex-shrink-0"></div>
+            <div class="w-1/2 pl-8"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="discoveries" class="bg-gradient-to-b from-bg-primary to-bg-secondary">
+    <div class="max-w-7xl mx-auto px-6 py-24">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-6xl font-bold mb-6 text-primary">
+          Recent <span class="gradient-text">Discoveries</span>
+        </h2>
+        <p class="text-xl text-secondary max-w-3xl mx-auto">
+          Groundbreaking findings that are advancing our understanding of 
+          life in space and its implications for future exploration.
+        </p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="research-card p-8 rounded-2xl">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 accent-primary rounded-full flex items-center justify-center mr-4">
+              <span class="text-2xl">🧬</span>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-primary">Gene Expression Changes</h3>
+              <div class="accent-primary text-sm">2023</div>
+            </div>
+          </div>
+          <p class="text-secondary mb-4">
+            Discovered that spaceflight causes significant changes in gene expression, 
+            particularly in immune system and bone formation pathways.
+          </p>
+        </div>
+        
+        <div class="research-card p-8 rounded-2xl">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 accent-primary rounded-full flex items-center justify-center mr-4">
+              <span class="text-2xl">🌱</span>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-primary">Space-Grown Lettuce</h3>
+              <div class="accent-primary text-sm">2022</div>
+            </div>
+          </div>
+          <p class="text-secondary mb-4">
+            Successfully demonstrated that lettuce grown in space is as nutritious 
+            as Earth-grown lettuce, opening doors for sustainable space agriculture.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="bg-gradient-to-b from-bg-secondary to-bg-primary">
+    <div class="max-w-7xl mx-auto px-6 py-24">
+      <div class="text-center">
+        <h2 class="text-4xl md:text-6xl font-bold mb-6 text-primary">
+          Join Our <span class="gradient-text">Mission</span>
+        </h2>
+        <p class="text-xl text-secondary max-w-3xl mx-auto mb-12">
+          Be part of the next generation of space bioscience research. 
+          Together, we're pushing the boundaries of what's possible.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="#" class="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full text-white font-medium hover:opacity-90 transition-opacity">
+            Join Our Team
+          </a>
+          <a href="#" class="px-8 py-3 bg-transparent border border-color rounded-full text-primary font-medium hover:bg-white/10 transition-colors">
+            Partner With Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const vantaElement = document.getElementById('vanta-bg');
+      if (vantaElement && typeof VANTA !== 'undefined') {
+        window.vantaEffect = VANTA.GLOBE({
+          el: "#vanta-bg",
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: '#bb86fc',
+          color2: '#03dac6',
+          size: 1.50,
+          backgroundColor: '#121212'
+        });
+      }
+    });
+  </script>
+  <script src="js/nav.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('nav.html')
+        .then(function(response){ return response.text(); })
+        .then(function(html){
+          var c = document.getElementById('nav-container');
+          if (c) { c.innerHTML = html; }
+          if (window.navigationManager) { window.navigationManager.init(); }
+        })
+        .catch(function(e){ console.error('Error loading navigation:', e); });
+    });
+  </script>
+</body>
+</html>

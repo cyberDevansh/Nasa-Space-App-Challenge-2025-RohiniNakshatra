@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Bot</title>
+    <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="cosmos-theme">
+    <div id="nav-container"></div>
+    <div class="chat-page">
+    <div class="chat-container panel">
+      <div class="chat-header">
+        <div class="bot-avatar">AI</div>
+        <div>
+          <div class="chat-title">BioResearch Assistant</div>
+          <div class="chat-subtitle">Ask anything about documents and publications</div>
+        </div>
+      </div>
+      <div id="chat-box" class="chat-box">
+        <!-- Chat messages will be dynamically added here -->
+      </div>
+      <div class="input-area">
+        <div class="input-tools">
+          <button class="tool-btn" title="New chat" aria-label="New chat">⟳</button>
+          <button class="tool-btn" title="Attach" aria-label="Attach">+</button>
+        </div>
+        <input id="user-input" type="text" placeholder="Type your message here..." />
+        <button id="send-btn">Send</button>
+      </div>
+    </div>
+    </div>
+    <div id="publications-box" class="publications-box panel"></div>
+    <script src="js/nav.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        fetch('nav.html')
+          .then(function(response){ return response.text(); })
+          .then(function(html){
+            var c = document.getElementById('nav-container');
+            if (c) { c.innerHTML = html; }
+            if (window.navigationManager) { window.navigationManager.init(); }
+          })
+          .catch(function(e){ console.error('Error loading navigation:', e); });
+      });
+    </script>
+    <script src="chat.js"></script>
+    <script type="module" src="/src/space/main.tsx"></script>
+  </body>
+</html>

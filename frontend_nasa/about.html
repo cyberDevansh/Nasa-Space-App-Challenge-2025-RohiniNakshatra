@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA BioResearch - About & Team</title>
+    <link rel="stylesheet" href="nav.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --nasa-blue: #0B3D91;
+            --nasa-red: #FC3D21;
+            --dark-bg: #000000;
+            --light-text: #E4E4E4;
+            --accent: #FFFFFF;
+        }
+
+        /* Cosmos Theme (Dark Mode) */
+        .cosmos-theme {
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --bg-tertiary: #252525;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-muted: #888888;
+            --accent-primary: #bb86fc;
+            --accent-secondary: #03dac6;
+            --accent-tertiary: #cf6679;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --nav-bg: rgba(18, 18, 18, 0.9);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Solaris Theme (Eye-Comfort/Warm) */
+        .solaris-theme {
+            --bg-primary: #FFF3E0;
+            --bg-secondary: #FFFAF3;
+            --bg-tertiary: #F5E6D3;
+            --text-primary: #5C3D00;
+            --text-secondary: #7A5A2E;
+            --text-muted: #9A7A4A;
+            --accent-primary: #FF8C42;
+            --accent-secondary: #FFD166;
+            --accent-tertiary: #6FCF97;
+            --card-bg: rgba(0, 0, 0, 0.05);
+            --nav-bg: rgba(255, 243, 224, 0.9);
+            --border-color: rgba(255, 140, 66, 0.2);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: var(--dark-bg);
+            color: var(--light-text);
+            overflow-x: hidden;
+            line-height: 1.6;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* Theme-specific body styles */
+        body.cosmos-theme {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        body.solaris-theme {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            transition: transform 0.2s ease, width 0.3s ease, height 0.3s ease;
+        }
+
+        .custom-cursor.active {
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: 2px solid var(--accent);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 25px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0);
+            backdrop-filter: blur(0px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        nav.scrolled {
+            padding: 18px 60px;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Theme-specific nav styles */
+        body.lunar-theme nav {
+            background: rgba(0, 0, 0, 0);
+        }
+
+        body.lunar-theme nav.scrolled {
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        body.solaris-theme nav {
+            background: rgba(0, 0, 0, 0);
+        }
+
+        body.solaris-theme nav.scrolled {
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: var(--accent);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        /* Theme-specific logo styles */
+        body.lunar-theme .logo {
+            color: var(--accent-primary);
+        }
+
+        body.solaris-theme .logo {
+            color: var(--accent-primary);
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.4s ease;
+        }
+
+        body.lunar-theme .logo::after {
+            background: var(--accent-primary);
+        }
+
+        body.solaris-theme .logo::after {
+            background: var(--accent-primary);
+        }
+
+        .logo:hover::after {
+            width: 100%;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        /* Theme-specific nav links styles */
+        body.lunar-theme .nav-links a {
+            color: var(--text-primary);
+        }
+
+        body.solaris-theme .nav-links a {
+            color: var(--text-primary);
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        body.lunar-theme .nav-links a::before {
+            background: var(--accent-primary);
+        }
+
+        body.solaris-theme .nav-links a::before {
+            background: var(--accent-primary);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        body.lunar-theme .nav-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        body.solaris-theme .nav-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--accent);
+        }
+
+        body.lunar-theme .nav-links a.active,
+        body.solaris-theme .nav-links a.active {
+            color: var(--accent-primary);
+        }
+
+        /* Theme Switcher Button */
+        .theme-switcher {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--light-text);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        body.lunar-theme .theme-toggle {
+            background: rgba(0, 78, 146, 0.1);
+            border: 1px solid rgba(0, 78, 146, 0.2);
+            color: var(--text-primary);
+        }
+
+        body.solaris-theme .theme-toggle {
+            background: rgba(255, 140, 66, 0.1);
+            border: 1px solid rgba(255, 140, 66, 0.2);
+            color: var(--text-primary);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        body.lunar-theme .theme-toggle:hover {
+            background: rgba(0, 78, 146, 0.2);
+        }
+
+        body.solaris-theme .theme-toggle:hover {
+            background: rgba(255, 140, 66, 0.2);
+        }
+
+        .theme-toggle svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .theme-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 10px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            min-width: 150px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        body.lunar-theme .theme-dropdown {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        body.solaris-theme .theme-dropdown {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .theme-switcher.active .theme-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .theme-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            color: var(--light-text);
+        }
+
+        body.lunar-theme .theme-option {
+            color: var(--text-primary);
+        }
+
+        body.solaris-theme .theme-option {
+            color: var(--text-primary);
+        }
+
+        .theme-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        body.lunar-theme .theme-option:hover {
+            background: var(--bg-tertiary);
+        }
+
+        body.solaris-theme .theme-option:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .theme-option.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        body.lunar-theme .theme-option.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        body.solaris-theme .theme-option.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .theme-preview {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .theme-default .theme-preview {
+            background: linear-gradient(135deg, #0B3D91, #FC3D21);
+        }
+
+        .theme-lunar .theme-preview {
+            background: linear-gradient(135deg, #004E92, #FF4E50);
+        }
+
+        .theme-solaris .theme-preview {
+            background: linear-gradient(135deg, #FF8C42, #FFD166);
+        }
+
+        /* About Hero */
+        .about-hero {
+            height: 70vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding-top: 100px;
+            background-color: #000000;
+        }
+
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(11, 61, 145, 0.3), rgba(252, 61, 33, 0.2));
+            z-index: -1;
+        }
+
+        .about-hero-content {
+            max-width: 1200px;
+            padding: 0 60px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .about-hero h1 {
+            font-size: 4.5rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            line-height: 1.1;
+        }
+
+        .about-hero .highlight {
+            font-weight: 600;
+            background: linear-gradient(135deg, #FFFFFF 0%, #888888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+            position: relative;
+        }
+
+        body.lunar-theme .about-hero .highlight {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        body.solaris-theme .about-hero .highlight {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 50px;
+            color: #B8B8B8;
+            letter-spacing: 0.5px;
+        }
+
+        body.lunar-theme .about-hero p,
+        body.solaris-theme .about-hero p {
+            color: var(--text-secondary);
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 100px 60px;
+            position: relative;
+        }
+
+        .content-section:nth-child(even) {
+            background: linear-gradient(to bottom, #000 0%, #0a0a0a 50%, #000 100%);
+        }
+
+        body.lunar-theme .content-section:nth-child(even),
+        body.solaris-theme .content-section:nth-child(even) {
+            background: var(--bg-primary);
+        }
+
+        .content-section:nth-child(odd) {
+            background: #000;
+        }
+
+        body.lunar-theme .content-section:nth-child(odd),
+        body.solaris-theme .content-section:nth-child(odd) {
+            background: var(--bg-secondary);
+        }
+
+        .section-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            margin-bottom: 80px;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        body.lunar-theme .section-subtitle,
+        body.solaris-theme .section-subtitle {
+            color: var(--text-muted);
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            font-weight: 200;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        .section-description {
+            font-size: 1.2rem;
+            color: #888;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        body.lunar-theme .section-description,
+        body.solaris-theme .section-description {
+            color: var(--text-secondary);
+        }
+
+        /* NASA Overview */
+        .nasa-overview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .nasa-image {
+            height: 500px;
+            background: linear-gradient(135deg, rgba(11, 61, 145, 0.2), rgba(252, 61, 33, 0.1));
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nasa-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: transform 0.5s ease;
+        }
+
+        .nasa-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .nasa-image::before {
+            content: '🚀';
+            font-size: 8rem;
+            opacity: 0.3;
+            position: absolute;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .nasa-content h3 {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        .nasa-content p {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: #888;
+            margin-bottom: 25px;
+        }
+
+        body.lunar-theme .nasa-content p,
+        body.solaris-theme .nasa-content p {
+            color: var(--text-secondary);
+        }
+
+        /* Departments Grid */
+        .departments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .department-card {
+            background: #0a0a0a;
+            padding: 50px 35px;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            text-align: center;
+        }
+
+        body.lunar-theme .department-card,
+        body.solaris-theme .department-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .department-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .department-card:hover::before {
+            left: 100%;
+        }
+
+        .department-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        body.lunar-theme .department-card:hover,
+        body.solaris-theme .department-card:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .department-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+
+        .department-name {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .department-description {
+            color: #777;
+            line-height: 1.7;
+        }
+
+        body.lunar-theme .department-description,
+        body.solaris-theme .department-description {
+            color: var(--text-secondary);
+        }
+
+        /* BioResearch Focus */
+        .bioresearch-focus {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .bioresearch-image {
+            height: 500px;
+            background: linear-gradient(135deg, rgba(11, 61, 145, 0.2), rgba(252, 61, 33, 0.1));
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bioresearch-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: transform 0.5s ease;
+        }
+
+        .bioresearch-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .bioresearch-image::before {
+            content: '🧬';
+            font-size: 8rem;
+            opacity: 0.3;
+            position: absolute;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .focus-areas {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .focus-area {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .focus-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .focus-content h4 {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .focus-content p {
+            color: #777;
+            line-height: 1.7;
+        }
+
+        body.lunar-theme .focus-content p,
+        body.solaris-theme .focus-content p {
+            color: var(--text-secondary);
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .team-member {
+            background: #0a0a0a;
+            padding: 40px 30px;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            text-align: center;
+        }
+
+        body.lunar-theme .team-member,
+        body.solaris-theme .team-member {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .team-member::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .team-member:hover::before {
+            left: 100%;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        body.lunar-theme .team-member:hover,
+        body.solaris-theme .team-member:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .member-avatar {
+            width: 100px;  /* reduced from 120px */
+            height: 100px; /* reduced from 120px */
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--nasa-blue), var(--nasa-red));
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            padding: 3px; /* creates space for gradient border */
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .member-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--dark-bg, #000);
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover .member-avatar img {
+            transform: scale(1.05);
+        }
+
+        /* Theme-specific image borders */
+        body.lunar-theme .member-avatar img {
+            border-color: var(--bg-primary);
+        }
+
+        body.solaris-theme .member-avatar img {
+            border-color: var(--bg-primary);
+        }
+
+        body.lunar-theme .member-avatar {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+        }
+
+        body.solaris-theme .member-avatar {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+        }
+
+        .member-name {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .member-role {
+            font-size: 1rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        body.lunar-theme .member-role,
+        body.solaris-theme .member-role {
+            color: var(--accent-primary);
+        }
+
+        .member-bio {
+            color: #777;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        body.lunar-theme .member-bio,
+        body.solaris-theme .member-bio {
+            color: var(--text-secondary);
+        }
+
+        .member-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light-text);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        body.lunar-theme .skill-tag,
+        body.solaris-theme .skill-tag {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .skill-tag:hover {
+            background: var(--accent);
+            color: var(--dark-bg);
+        }
+
+        body.lunar-theme .skill-tag:hover,
+        body.solaris-theme .skill-tag:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            padding: 100px 60px 50px;
+            background: #000;
+            border-top: 1px solid #111;
+            position: relative;
+        }
+
+        body.lunar-theme footer,
+        body.solaris-theme footer {
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        body.lunar-theme footer::before,
+        body.solaris-theme footer::before {
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 80px;
+            margin-bottom: 80px;
+        }
+
+        .footer-section h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .footer-section p {
+            color: #555;
+            line-height: 1.9;
+            margin-bottom: 25px;
+        }
+
+        body.lunar-theme .footer-section p,
+        body.solaris-theme .footer-section p {
+            color: var(--text-muted);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .footer-links a {
+            color: #555;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        body.lunar-theme .footer-links a,
+        body.solaris-theme .footer-links a {
+            color: var(--text-muted);
+        }
+
+        .footer-links a::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 20px;
+        }
+
+        body.lunar-theme .footer-links a:hover,
+        body.solaris-theme .footer-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        .footer-links a:hover::before {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 50px;
+            border-top: 1px solid #111;
+            color: #333;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        body.lunar-theme .footer-bottom,
+        body.solaris-theme .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+        }
+
+        /* Scroll Progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--nasa-blue), var(--accent), var(--nasa-red));
+            z-index: 9999;
+            transform-origin: left;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        body.lunar-theme .scroll-progress {
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+        }
+
+        body.solaris-theme .scroll-progress {
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .about-hero h1 { font-size: 3.5rem; }
+            .nasa-overview, .bioresearch-focus { grid-template-columns: 1fr; }
+            .departments-grid, .team-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .about-hero, .content-section { padding-left: 30px; padding-right: 30px; }
+            .section-title { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body class="cosmos-theme">
+    <div class="custom-cursor" id="cursor"></div>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Navigation -->
+    <div id="nav-container"></div>
+
+    <section class="about-hero">
+        <div class="about-hero-content">
+            <h1>About <span class="highlight">NASA BioResearch</span></h1>
+            <p>Discover the organization behind humanity's greatest adventures in space and the team dedicated to understanding life beyond Earth.</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-subtitle">Our Organization</div>
+                <h2 class="section-title">National Aeronautics and Space Administration</h2>
+                <p class="section-description">NASA's vision is to discover and expand knowledge for the benefit of humanity, pioneering the future in space exploration, scientific discovery, and aeronautics research.</p>
+            </div>
+            <div class="nasa-overview">
+                <div class="nasa-image"><img src="images/1.jpg" alt=""></div>
+                <div class="nasa-content">
+                    <h3>Pioneering Space Exploration Since 1958</h3>
+                    <p>Established in response to the Soviet Union's Sputnik satellite, NASA has been at the forefront of space exploration for over six decades. From the Mercury and Apollo programs to the Space Shuttle and International Space Station, NASA has continuously pushed the boundaries of human achievement.</p>
+                    <p>Today, NASA leads the Artemis program to return humans to the Moon and prepare for future missions to Mars, while continuing its vital Earth science research and developing new technologies for aviation and space exploration.</p>
+                    <p>With centers across the United States and partnerships worldwide, NASA's work benefits people around the globe through technological innovations, scientific discoveries, and inspiration for future generations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-subtitle">NASA's Structure</div>
+                <h2 class="section-title">Major Departments & Centers</h2>
+                <p class="section-description">NASA's work is organized across multiple mission directorates and research centers, each specializing in different aspects of aeronautics and space exploration.</p>
+            </div>
+            <div class="departments-grid">
+                <div class="department-card">
+                    <div class="department-icon">🚀</div>
+                    <h3 class="department-name">Space Operations</h3>
+                    <p class="department-description">Manages NASA's spaceflight operations, including the International Space Station, commercial crew programs, and space launch services.</p>
+                </div>
+                <div class="department-card">
+                    <div class="department-icon">🔬</div>
+                    <h3 class="department-name">Science</h3>
+                    <p class="department-description">Leads NASA's scientific research across astrophysics, Earth science, heliophysics, and planetary science disciplines.</p>
+                </div>
+                <div class="department-card">
+                    <div class="department-icon">🧑‍🚀</div>
+                    <h3 class="department-name">Exploration Systems</h3>
+                    <p class="department-description">Develops capabilities for human exploration beyond low-Earth orbit, including the Artemis program and lunar Gateway.</p>
+                </div>
+                <div class="department-card">
+                    <div class="department-icon">✈</div>
+                    <h3 class="department-name">Aeronautics</h3>
+                    <p class="department-description">Researches and develops advanced aviation technologies to improve air transportation safety, efficiency, and environmental performance.</p>
+                </div>
+                <div class="department-card">
+                    <div class="department-icon">🛰</div>
+                    <h3 class="department-name">Space Technology</h3>
+                    <p class="department-description">Develops transformative space technologies for future NASA missions and commercial space applications.</p>
+                </div>
+                <div class="department-card">
+                    <div class="department-icon">🌍</div>
+                    <h3 class="department-name">Earth Science</h3>
+                    <p class="department-description">Studies Earth's systems using satellites and airborne instruments to understand climate change and environmental processes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-subtitle">Our Division</div>
+                <h2 class="section-title">NASA BioResearch Department</h2>
+                <p class="section-description">Dedicated to understanding how living systems respond, adapt, and evolve in space environments to enable long-duration human exploration and improve life on Earth.</p>
+            </div>
+            <div class="bioresearch-focus">
+                <div class="bioresearch-image"><img src="images/2.jpg" alt=""></div>
+                <div class="focus-areas">
+                    <div class="focus-area">
+                        <div class="focus-icon">🧬</div>
+                        <div class="focus-content">
+                            <h4>Space Biology Research</h4>
+                            <p>Investigating how microgravity, radiation, and other spaceflight factors affect biological systems from molecular to organism levels.</p>
+                        </div>
+                    </div>
+                    <div class="focus-area">
+                        <div class="focus-icon">👨‍🚀</div>
+                        <div class="focus-content">
+                            <h4>Human Research Program</h4>
+                            <p>Developing countermeasures to protect astronaut health and performance during long-duration space missions.</p>
+                        </div>
+                    </div>
+                    <div class="focus-area">
+                        <div class="focus-icon">🌱</div>
+                        <div class="focus-content">
+                            <h4>Advanced Life Support</h4>
+                            <p>Creating regenerative systems for air, water, and food production to sustain human presence beyond Earth.</p>
+                        </div>
+                    </div>
+                    <div class="focus-area">
+                        <div class="focus-icon">🔍</div>
+                        <div class="focus-content">
+                            <h4>Astrobiology</h4>
+                            <p>Studying the origin, evolution, and distribution of life in the universe and the potential for life elsewhere.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content-section"> <div class="section-container"> <div class="section-header"> <div class="section-subtitle">Our Team</div> <h2 class="section-title">Development & Research Team</h2> <p class="section-description">Meet the dedicated professionals behind NASA's biological research initiatives and the development of this digital platform.</p> </div> <div class="team-grid">
+    <div class="team-member">
+        <div class="member-avatar"><img src="images/Parag.webp" alt=""></div>
+        <h3 class="member-name">Dr. Parag Vaishampayan</h3>
+        <div class="member-role">Division Chief, Space Biosciences Division</div>
+        <p class="member-bio">Dr. Vaishampayan leads the entire Space Biosciences Division at NASA's Ames Research Center in California's Silicon Valley. From 2020 to 2022, he served as a Space Biology Portfolio Scientist providing overall scientific leadership and direction to maintain the scientific integrity of projects within the Ames Space Biology Portfolio. He supported over 70 active space biology projects to better understand how spaceflight affects living systems.</p>
+        <div class="member-skills">
+            <span class="skill-tag">Space Biology Portfolio Management</span>
+            <span class="skill-tag">Spaceflight Effects on Living Systems</span>
+            <span class="skill-tag">Scientific Leadership</span>
+        </div>
+    </div>
+
+    <div class="team-member">
+        <div class="member-avatar"><img src="images/Egle.webp" alt=""></div>
+        <h3 class="member-name">Dr. Egle Cekanaviciute</h3>
+        <div class="member-role">Deputy Division Chief, Space Biosciences Division</div>
+        <p class="member-bio">Dr. Cekanaviciute serves as the Ames Research Center Lead for the NASA Human Research Program (HRP) and is also a Principal Investigator in the Radiation Biophysics Laboratory. She began her career at Ames as a contractor via USRA in 2017, joining civil service in 2020. She is also the course director of the STAR: Spaceflight Technologies, Application and Research training program.</p>
+        <div class="member-skills">
+            <span class="skill-tag">Radiation Biophysics</span>
+            <span class="skill-tag">Human Spaceflight Physiology</span>
+            <span class="skill-tag">Scientific Program Leadership</span>
+        </div>
+    </div>
+
+    <div class="team-member">
+        <div class="member-avatar"><img src="images/mary.jpg" alt=""></div>
+        <h3 class="member-name">Dr. Mary Voytek</h3>
+        <div class="member-role">Senior Scientist for Astrobiology</div>
+        <p class="member-bio">Dr. Voytek is Senior Scientist for Astrobiology at NASA, leading the Scientific Leadership & Collaboration program. She directs efforts in astrobiology, planetary science, and technology through analog research. Her work has shaped NASA's approach to exobiology and the search for life beyond Earth.</p>
+        <div class="member-skills">
+            <span class="skill-tag">Astrobiology</span>
+            <span class="skill-tag">Planetary Science</span>
+            <span class="skill-tag">Exobiology</span>
+        </div>
+    </div>
+
+    <div class="team-member">
+        <div class="member-avatar"><img src="images/Lindsay.jpeg" alt=""></div>
+        <h3 class="member-name">Dr. Lindsay Hays</h3>
+        <div class="member-role">Program Scientist for Astrobiology</div>
+        <p class="member-bio">Dr. Hays is the Program Scientist for Astrobiology and leads NASA's Organizational Excellence projects. She coordinates the Exobiology, Habitable Worlds, and the FINESST fellowships, advancing the next generation of astrobiology research and education.</p>
+        <div class="member-skills">
+            <span class="skill-tag">Astrobiology Program Management</span>
+            <span class="skill-tag">Exobiology</span>
+            <span class="skill-tag">Habitable Worlds</span>
+        </div>
+    </div>
+    
+    <div class="team-member">
+        <div class="member-avatar"><img src="images/David.jpeg" alt=""></div>
+        <h3 class="member-name">Dr. David Grinspoon</h3>
+        <div class="member-role">Senior Scientist for Astrobiology Strategy</div>
+        <p class="member-bio">Dr. Grinspoon is Senior Scientist for Astrobiology Strategy at NASA. He expands NASA's astrobiology program and has guided scientific direction through roles in strategic planning and policy, publishing influential work on planetary science and the search for life in the universe.</p>
+        <div class="member-skills">
+            <span class="skill-tag">Astrobiology Strategy</span>
+            <span class="skill-tag">Planetary Science</span>
+            <span class="skill-tag">Science Communication</span>
+        </div>
+    </div>
+
+    <div class="team-member">
+        <div class="member-avatar"><img src="images/Sharmila.jpeg" alt=""></div>
+        <h3 class="member-name">Dr. Sharmila Bhattacharya</h3>
+        <div class="member-role">Program Scientist for Space Biology</div>
+        <p class="member-bio">Dr. Bhattacharya is Program Scientist for Space Biology. She oversees strategic planning and research across multiple biological systems, focusing on microgravity effects and model organisms to guide advances in human health during spaceflight.</p>
+        <div class="member-skills">
+            <span class="skill-tag">Space Biology Management</span>
+            <span class="skill-tag">Microgravity Effects</span>
+            <span class="skill-tag">Model Organism Research</span>
+        </div>
+    </div>
+    
+    <div class="team-member">
+        <div class="member-avatar"><img src="images/Joshua.jpeg" alt=""></div>
+        <h3 class="member-name">Dr. Joshua S. Alwood</h3>
+        <div class="member-role">Bone Biology and Biomechanics Researcher</div>
+        <p class="member-bio">Dr. Alwood investigates bone biology, biomechanics, and reproductive health in space. His research targets molecular mechanisms underlying skeletal changes during spaceflight to inform astronaut health and long-duration mission planning.</p>
+        <div class="member-skills">
+            <span class="skill-tag">Bone Biology</span>
+            <span class="skill-tag">Biomechanics</span>
+            <span class="skill-tag">Space Medicine</span>
+        </div>
+    </div>
+
+    <div class="team-member">
+        <div class="member-avatar"><img src="images/April.jpeg" alt=""></div>
+        <h3 class="member-name">Dr. April E. Ronca</h3>
+        <div class="member-role">Reproduction and Neurodevelopment Specialist</div>
+        <p class="member-bio">Dr. Ronca is a leading scientist studying reproduction, neurodevelopment, and sex differences in spaceflight. She pioneered spaceflight experiments involving pregnant mammals and now leads research into neurobehavior and developmental biology at NASA.</p>
+        <div class="member-skills">
+            <span class="skill-tag">Reproductive Biology</span>
+            <span class="skill-tag">Neurodevelopment</span>
+            <span class="skill-tag">Sex Differences</span>
+        </div>
+    </div>
+
+    <div class="team-member">
+        <div class="member-avatar"><img src="images/Eduardo.jpeg" alt=""></div>
+        <h3 class="member-name">Dr. Eduardo A.C. Almeida</h3>
+        <div class="member-role">Stem Cell and Tissue Regeneration Researcher</div>
+        <p class="member-bio">Dr. Almeida leads investigations into microgravity effects on stem cell biology and tissue regeneration. His research examines how Earth's gravity supports stem cell proliferation and differentiation, informing health countermeasures for spaceflight.</p>
+        <div class="member-skills">
+            <span class="skill-tag">Stem Cell Biology</span>
+            <span class="skill-tag">Tissue Regeneration</span>
+            <span class="skill-tag">Microgravity Effects</span>
+        </div>
+    </div>
+
+    <div class="team-member">
+        <div class="member-avatar"><img src="images/Sylvain.jpeg" alt=""></div>
+        <h3 class="member-name">Dr. Sylvain V. Costes</h3>
+        <div class="member-role">Principal Investigator, Computational Biology</div>
+        <p class="member-bio">Dr. Costes is a principal investigator specializing in computational frameworks for biology and data systems in space research. He led the development of GeneLab and now drives analysis, data curation, and radiation biology research initiatives.</p>
+        <div class="member-skills">
+            <span class="skill-tag">Computational Biology</span>
+            <span class="skill-tag">Data Systems</span>
+            <span class="skill-tag">Radiation Biology</span>
+        </div>
+    </div>
+
+    <div class="team-member">
+        <div class="member-avatar"><img src="images/Jonathan.jpeg" alt=""></div>
+        <h3 class="member-name">Dr. Jonathan M. Galazka</h3>
+        <div class="member-role">Space Biology Portfolio Scientist</div>
+        <p class="member-bio">Dr. Galazka coordinates NASA's space biology portfolio and GeneLab program. His work spans systems biology, open science, the microbiology of yeast, and genetic adaptation during spaceflight.</p>
+        <div class="member-skills">
+            <span class="skill-tag">Systems Biology</span>
+            <span class="skill-tag">Microbiology</span>
+            <span class="skill-tag">Synthetic Biology</span>
+        </div>
+    </div>
+
+    <div class="team-member">
+        <div class="member-avatar"><img src="images/Samrawit.jpeg" alt=""></div>
+        <h3 class="member-name">Samrawit (Sam) Gebre</h3>
+        <div class="member-role">GeneLab & NBISC Project Manager</div>
+        <p class="member-bio">Sam Gebre manages NASA's GeneLab and Biological Institutional Scientific Collection (NBISC) projects, pioneering the use of open science platforms for spaceflight data analysis and sharing among global researchers.</p>
+        <div class="member-skills">
+            <span class="skill-tag">Open Science</span>
+            <span class="skill-tag">Bioinformatics</span>
+            <span class="skill-tag">Data Curation</span>
+        </div>
+    </div>
+
+    <div class="team-member">
+        <div class="member-avatar"><img src="images/Lauren.jpeg" alt=""></div>
+        <h3 class="member-name">Dr. Lauren Sanders</h3>
+        <div class="member-role">Project Scientist, Artificial Intelligence for Space Biology</div>
+        <p class="member-bio">Dr. Sanders leads NASA's Open Science Data Repository and drives research at the intersection of artificial intelligence, machine learning, and biological sciences for deep space exploration and automated analysis.</p>
+        <div class="member-skills">
+            <span class="skill-tag">Artificial Intelligence</span>
+            <span class="skill-tag">Computational Biology</span>
+            <span class="skill-tag">Machine Learning</span>
+        </div>
+    </div>
+</div>
+</div>
+</section>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>NASA BioResearch</h4>
+                <p>Advancing biological research for the benefit of humanity on Earth and throughout the solar system. Pioneering life sciences in the final frontier.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Research</h4>
+                <div class="footer-links">
+                    <a href="#">Current Projects</a>
+                    <a href="#">Publications</a>
+                    <a href="#">Data Archives</a>
+                    <a href="#">Collaborations</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <div class="footer-links">
+                    <a href="#">Press Releases</a>
+                    <a href="#">Media Library</a>
+                    <a href="#">Educational Programs</a>
+                    <a href="#">Career Opportunities</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <div class="footer-links">
+                    <a href="#">Contact Us</a>
+                    <a href="#">Newsletter</a>
+                    <a href="#">Social Media</a>
+                    <a href="#">Events</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 NASA BioResearch. National Aeronautics and Space Administration.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        document.querySelectorAll('a, button, .department-card, .team-member, .skill-tag').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+        });
+
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / scrollHeight) * 100;
+            scrollProgress.style.width = scrolled + '%';
+        });
+
+        // Nav scroll effect
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Card animations
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 150);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.department-card, .team-member').forEach((card, index) => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease ' + (index * 0.1) + 's';
+            cardObserver.observe(card);
+        });
+
+        // Theme Switcher Functionality - integrated with navigation system
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const themeOrder = ['cosmos', 'lunar', 'solaris'];
+        const themeClasses = ['cosmos-theme', 'lunar-theme', 'solaris-theme'];
+        const themeNames = ['Cosmos', 'Lunar', 'Solaris'];
+        
+        function getCurrentTheme() {
+            return localStorage.getItem('theme') || 'cosmos';
+        }
+        
+        function setTheme(theme) {
+            // Remove all theme classes
+            themeClasses.forEach(t => body.classList.remove(t));
+            
+            // Add new theme class
+            const themeIndex = themeOrder.indexOf(theme);
+            if (themeIndex !== -1) {
+                body.classList.add(themeClasses[themeIndex]);
+                body.setAttribute('data-theme', theme);
+                
+                // Update button text
+                if (themeToggle) {
+                    themeToggle.textContent = themeNames[themeIndex];
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('theme', theme);
+                
+                // Trigger theme change event for other scripts
+                window.dispatchEvent(new CustomEvent('themeChanged', { 
+                    detail: { theme: theme } 
+                }));
+            }
+        }
+        
+        // Initialize theme
+        const currentTheme = getCurrentTheme();
+        setTheme(currentTheme);
+        
+        // Add click listener for theme toggle
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                const currentIndex = themeOrder.indexOf(getCurrentTheme());
+                const nextIndex = (currentIndex + 1) % themeOrder.length;
+                const nextTheme = themeOrder[nextIndex];
+                setTheme(nextTheme);
+            });
+        }
+        
+        // Listen for theme changes from navigation system
+        window.addEventListener('themeChanged', function(event) {
+            const newTheme = event.detail.theme;
+            setTheme(newTheme);
+        });
+    </script>
+    
+    <script src="js/nav.js"></script>
+    <script>
+        // Load navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('nav.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('nav-container').innerHTML = data;
+                    // Re-initialize navigation after loading
+                    if (window.navigationManager) {
+                        window.navigationManager.init();
+                    }
+                })
+                .catch(error => console.error('Error loading navigation:', error));
+        });
+        
+    </script>
+</body>
+</html>

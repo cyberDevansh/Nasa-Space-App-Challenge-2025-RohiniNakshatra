@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>frontend_nasa</title>
+    <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="cosmos-theme">
+    <script>
+      // Redirect to dashboard only when visiting site root (not when opening index.html directly)
+      (function(){
+        var path = window.location.pathname || '';
+        if (path === '/' || path.endsWith('/')) {
+          window.location.replace('dashboard.html');
+        }
+      })();
+    </script>
+    <div id="nav-container"></div>
+    <div id="app" class="page-container">
+      <div class="horizontal-bar panel" id="categories-bar">
+        <!-- Categories will be dynamically added here -->
+      </div>
+      <div class="scroll-box panel" id="documents-box">
+        <!-- Documents will be dynamically added here -->
+      </div>
+    </div>
+    <script src="js/nav.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        fetch('nav.html')
+          .then(function(response){ return response.text(); })
+          .then(function(html){
+            var c = document.getElementById('nav-container');
+            if (c) { c.innerHTML = html; }
+            if (window.navigationManager) { window.navigationManager.init(); }
+          })
+          .catch(function(e){ console.error('Error loading navigation:', e); });
+      });
+    </script>
+    <script type="module" src="main.js"></script>
+    <!-- Solar system background removed -->
+  </body>
+</html>

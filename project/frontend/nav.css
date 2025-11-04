@@ -1,0 +1,8 @@
+/* Minimal navbar styles used by about.html and matched to SPA styles */
+nav#nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:14px 28px;background:rgba(0,0,0,0);z-index:1000}
+nav#nav .logo{font-weight:700;color:#fff;font-size:1.1rem}
+nav#nav .nav-links{display:flex;gap:18px;align-items:center}
+nav#nav .nav-links a{color:#fff;text-decoration:none;font-weight:600}
+body.lunar-theme nav#nav .nav-links a, body.solaris-theme nav#nav .nav-links a{color:inherit}
+/* responsive */
+@media (max-width:800px){nav#nav{padding:10px 16px}.nav-links{gap:10px}}

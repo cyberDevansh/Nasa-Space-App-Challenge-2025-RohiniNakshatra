@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biostra</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Inter", sans-serif;
+    }
+
+    body {
+      background-color: #212121;
+      color: #eaeaea;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .chat-container {
+      background-color: #2c2c2c;
+      width: 90%;
+      max-width: 800px;
+      height: 90vh;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .chat-box {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 12px 16px;
+      border-radius: 10px;
+      line-height: 1.4;
+      font-size: 15px;
+      word-wrap: break-word;
+    }
+
+    .user {
+      align-self: flex-end;
+      background-color: #0078ff;
+      color: white;
+      border-bottom-right-radius: 2px;
+    }
+
+    .bot {
+      align-self: flex-start;
+      background-color: #3a3a3a;
+      border-bottom-left-radius: 2px;
+    }
+
+    .input-area {
+      display: flex;
+      border-top: 1px solid #3a3a3a;
+      padding: 10px;
+      background-color: #2c2c2c;
+    }
+
+    input {
+      flex: 1;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      background-color: #3a3a3a;
+      color: #fff;
+      font-size: 15px;
+    }
+
+    button {
+      margin-left: 10px;
+      background-color: #0078ff;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #005edc;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: #555;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-box" id="chat-box">
+      <div class="message bot">Hello! 👋 I’m <strong>Biostra</strong>. How can I help you today?</div>
+    </div>
+
+    <div class="input-area">
+      <input type="text" id="user-input" placeholder="Type your message..." />
+      <button id="send-btn">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById("chat-box");
+    const userInput = document.getElementById("user-input");
+    const sendBtn = document.getElementById("send-btn");
+
+    sendBtn.addEventListener("click", sendMessage);
+    userInput
+
